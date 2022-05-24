@@ -1,0 +1,23 @@
+@import "./variables";
+@import "./mixins/helpers";
+
+@include font-family();
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-family: "Manrope", sans-serif;
+  font-stretch: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: $colorBackground;
+}
+.container{
+    max-width: 1200px;
+    margin: 0 auto;
+}

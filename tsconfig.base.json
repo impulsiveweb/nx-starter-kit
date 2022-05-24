@@ -1,0 +1,26 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@database/*": ["apps/api/src/database/*", "apps/api/src/database"],
+      "@logger/*": ["apps/api/src/logger/*", "apps/api/src/logger"],
+      "@jwt/*": ["apps/api/src/jwt/*", "apps/api/src/jwt"],
+      "@config": ["libs/config/src/index.ts"],
+      "@utils/*": ["libs/utils/*", "libs/utils"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

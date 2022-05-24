@@ -1,0 +1,84 @@
+$gutter: 24px;
+$columns: 12;
+$screen-md: 1366px;
+$screen-lg: 1400px;
+
+$container: (
+  "md": $screen-md,
+  "lg": $screen-lg,
+) !default;
+
+$breakpoints: (
+  "md": 0,
+  "lg": strip-unit($screen-lg),
+) !default;
+
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin grid {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: math.div($gutter, 2);
+    padding-right: math.div($gutter, 2);
+
+    [class*="col-"] {
+      position: relative;
+      width: 100%;
+      padding-right: math.div($gutter, 2);
+      // padding-left: $gutter / 2;
+      padding-left: 32px;
+    }
+  }
+
+  @include row();
+
+  @include columns();
+}
+
+@mixin mq($breakpoint, $minMax) {
+  @if ($breakpoint == 0) {
+    @content;
+  } @else {
+    @media screen and (#{$minMax}-width: ($breakpoint + 0px)) {
+      @content;
+    }
+  }
+}
+
+@mixin columns() {
+  @each $slug, $size in $breakpoints {
+    @include mq($size, "min") {
+      @for $i from 1 through $columns {
+        @if ($slug != "") {
+          .col-#{$slug}-#{$i} {
+            flex-basis: math.div(100 , math.div($columns, $i)) * 1%;
+          }
+
+          .col-#{$slug}-offset-#{$i} {
+            margin-left: math.div(100 , math.div($columns, $i)) * 1%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin row {
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: math.div(-$gutter, 2);
+    margin-left: math.div(-$gutter, 2);
+  }
+}

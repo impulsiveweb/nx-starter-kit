@@ -1,0 +1,55 @@
+@mixin font($family, $path, $weight, $style) {
+  font-family: $family;
+  src: local($family), url($path + ".svg");
+  src: url($path + ".eot?#iefix") format("embedded-opentype"),
+    url($path + ".woff") format("woff"), url($path + ".ttf") format("truetype"),
+    url($path + ".svg#dripicons-v2") format("svg");
+  font-weight: $weight;
+  font-style: $style;
+}
+
+@mixin font-woff($family, $path, $weight, $style) {
+  font-family: $family;
+  src: local($family), url($path + ".woff") format("woff"),
+    url($path + ".woff2") format("woff2");
+  font-weight: $weight;
+  font-style: $style;
+}
+
+@mixin font-ttf($family, $path, $weight, $style) {
+  font-family: $family;
+  src: local($family), url($path + ".ttf") format("truetype");
+  font-weight: $weight;
+  font-style: $style;
+}
+
+@mixin font-family {
+  @font-face {
+    @include font-woff("Manrope", "/fonts/manrope/400", 400, normal);
+  }
+
+  @font-face {
+    @include font-woff("Manrope", "/fonts/manrope/500", 500, normal);
+  }
+
+  @font-face {
+    @include font-woff("Manrope", "/fonts/manrope/700", 700, normal);
+  }
+
+  @font-face {
+    @include font-woff("Manrope", "/fonts/manrope/900", 900, normal);
+  }
+
+}
+
+$size: 100;
+
+@mixin margin-top-list {
+  @for $i from 1 through $size {
+    .m-top-#{$i} {
+      margin-top: #{$i}px;
+    }
+  }
+}
+
+@include margin-top-list;

@@ -1,0 +1,32 @@
+@import "../../styles/variables";
+.header {
+    width: 100%;
+    height: 70px;
+    background: $colorPrimary;
+    .logo{
+        padding: 20px;
+        color: #fff;
+        font-size: 20px;
+        font-weight: 600;
+        float: left;
+    }
+    .navigation{
+        float: right;
+        width: auto;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+        ul{
+            li{
+                float: left;
+                padding: 10px 20px;
+                color: #fff;
+                cursor: pointer;
+                &:hover{
+                    background: #ffffff22;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,9 @@
+@import "../../styles/variables";
+.footer {
+    padding: 20px;
+    .company{
+        color: $colorTextDark;
+        font-size: $fontSizeRegular;
+        text-align: center;
+    }
+}
