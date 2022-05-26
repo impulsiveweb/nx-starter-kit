@@ -97,7 +97,7 @@ export const getFilterParams = (body: any, limit = 30) => {
     limit,
     offset,
     where,
-    raw: true,
+    raw: false,
     nest: true,
   };
 }
