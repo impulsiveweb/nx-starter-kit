@@ -100,6 +100,7 @@ export class AuthService {
         message: "Account blocked",
       };
     }
+    delete user.password;
     
     return {
       status: 1,

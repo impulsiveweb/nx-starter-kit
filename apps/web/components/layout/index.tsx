@@ -10,7 +10,8 @@ const LayoutComponent: FC<any> = ({ title, noLayout, children }) => {
         <link rel="icon" type="image/x-icon" href="/images/favicon.png" />
       </Head>
       {noLayout && <>{children}</>}
-      {!noLayout && <main className={styles.layout}>{children}</main>}
+      {!noLayout && <main className={styles.layout}>
+        {children}</main>}
     </>
   );
 };

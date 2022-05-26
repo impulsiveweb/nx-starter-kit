@@ -6,6 +6,6 @@ export const APIS = {
     REFRESH_TOKEN: '/auth/refresh-token'
   },
   DASHBOARD: {
-    USER_LIST: 'dashboard/list-users'
+    USER_LIST: '/dashboard/list-users'
   }
 };

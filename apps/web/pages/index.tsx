@@ -1,10 +1,13 @@
 import LayoutComponent from '../components/layout';
 import HomeContainer from '../containers/home';
+import AuthProvider from '../context/auth';
 export function Index() {
   return (
-    <LayoutComponent title="NX Starter Kit" auth="true">
+    <AuthProvider anonymous={true}>
+      <LayoutComponent title="NX Starter Kit">
         <HomeContainer />
-    </LayoutComponent>
+      </LayoutComponent>
+    </AuthProvider>
   );
 }
 

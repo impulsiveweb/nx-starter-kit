@@ -1,7 +1,70 @@
+@import "../../styles/variables";
 .page {
     width: 100%;
     .login{
         background: #fff;
-        
+        width: 300px;
+        margin: 0 auto;
+        margin-top: 200px;
+        border-radius: 5px;
+        box-shadow: 2px 2px 2px #dddddd;
+        padding: 30px;
+        .logo{
+            margin: 0 auto;
+            width: 50%;
+            position: relative;
+            height: 30px;
+            margin-bottom: 10px;
+            img{
+                width: 100%;
+            }
+        }
+        .title{
+            text-align: center;
+            font-size: $fontSizeLarge;
+        }
+        .form_group{
+            margin-bottom: 10px;
+            &:last-child{
+                margin-bottom: 0;
+            }
+            .form_label{
+                color: $colorTextRegular;
+                font-size: $fontSizeSmall;
+                margin-bottom: 5px;
+            }
+            .form_control{
+                color: $colorTextDark;
+                font-size: $fontSizeRegular;
+                background: #fff;
+                border: 1px solid #dddddd;
+                padding: 4px 6px;
+                width: 100%;
+                border-radius: 3px;
+            }
+            .form_error{
+                color: $colorTextRed;
+                font-size: $fontSizeExtraSmall;
+                margin-bottom: 5px;
+            }
+            .form_button{
+                color: #fff;
+                font-size: $fontSizeRegular;
+                background: $colorPrimary;
+                padding: 6px 6px;
+                width: 70%;
+                margin: 0 auto;
+                font-weight: 500;
+                border-radius: 3px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 20px;
+                cursor: pointer;
+                &:hover{
+                    opacity: 0.9;
+                }
+            }
+        }
     }
 }

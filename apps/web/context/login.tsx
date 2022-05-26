@@ -5,7 +5,6 @@ export type AuthType = {
   user: any;
   login: any;
   logout: any;
-  loading: any;
   token: any;
 };
 export const AuthContext = createContext<AuthType>({
@@ -13,7 +12,6 @@ export const AuthContext = createContext<AuthType>({
   user: null,
   login: () => null,
   logout: () => null,
-  loading: null,
   token: null,
 });
 
