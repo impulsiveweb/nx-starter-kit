@@ -1,6 +1,6 @@
-import { hash, compare, genSalt } from "bcrypt";
-import { Op } from "sequelize";
-import { v1 as uuidv1 } from "uuid";
+import { hash, compare, genSalt } from 'bcrypt';
+import { Op } from 'sequelize';
+import { v1 as uuidv1 } from 'uuid';
 
 /**
  * generateSalt
@@ -42,11 +42,11 @@ export const uuid = () => {
 };
 
 export const nameFromSlug = (slug: string) => {
-  return slug.indexOf("-") !== -1
+  return slug.indexOf('-') !== -1
     ? slug
-        .split("-")
+        .split('-')
         .map((s: string) => `${s.charAt(0).toUpperCase()}${s.slice(1)}`)
-        .join(" ")
+        .join(' ')
     : `${slug.charAt(0).toUpperCase()}${slug.slice(1)}`;
 };
 
@@ -55,7 +55,7 @@ export const mapByField = (data: any[], field: string) => {
 };
 
 export const paginate = (query, { page, pageSize }) => {
-  const offset = (page-1) * pageSize;
+  const offset = (page - 1) * pageSize;
   const limit = pageSize;
   return {
     ...query,
@@ -64,12 +64,11 @@ export const paginate = (query, { page, pageSize }) => {
   };
 };
 
-
 export const getFilterParams = (body: any, limit = 30) => {
   const page = body.page || 1;
   limit = parseInt(body.limit || limit);
   const offset = (page - 1) * limit;
-  const order = body.sort || [["id", "DESC"]];
+  const order = body.sort || [['id', 'DESC']];
   const where = { deleted: 0 };
   const date_filters = [];
   if (body.start_date && body.date_field) {
@@ -87,7 +86,7 @@ export const getFilterParams = (body: any, limit = 30) => {
     const orFilter = [];
     for (let i = 0; i < body.search_fields.length; i++) {
       orFilter.push({
-        [body.search_fields[i]]: { [Op.like]: "%" + body.search + "%" },
+        [body.search_fields[i]]: { [Op.like]: '%' + body.search + '%' },
       });
     }
     where[Op.or] = orFilter;
@@ -100,4 +99,4 @@ export const getFilterParams = (body: any, limit = 30) => {
     raw: false,
     nest: true,
   };
-}
+};

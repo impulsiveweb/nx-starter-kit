@@ -1,0 +1,50 @@
+@import "../../styles/variables";
+.paginate {
+    width: 100%;
+    display: table;
+    .paginate_summary{
+        float: left;
+        width: auto;
+        font-size: $fontSizeRegular;
+        color: $colorTextLight;
+        padding: 5px;
+        span{
+            margin-left: 50px;
+            display: inline-block;
+        }
+    }
+    .paginate_action{
+        width: auto;
+        float: right;
+        .paginate_pagination{
+          display: block;
+          li{
+            background: #fff;
+            padding: 7px 13px;
+            font-size: 14px;
+            border: 1px solid #e0e0e0;
+            border-right: 0;
+            display: inline-block;
+            &:last-child{
+              border-right: 1px solid #e0e0e0;
+            }
+            &.active{
+              cursor: pointer;
+              color: $colorPrimary;
+              &:hover{
+                background: #e9ecef;
+              }
+            }
+            &.inactive{
+              cursor: default;
+              background: #fafafa;
+              &:hover{
+                background: #fafafa;
+              }
+              &.current{background: $colorPrimary; color: #fff;}
+            }
+          }
+        }
+      }
+
+}

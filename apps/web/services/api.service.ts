@@ -29,7 +29,7 @@ API.interceptors.response.use(
     return response.data;
   },
   function (error: any) {
-    return error;
+    return Promise.reject(error);
   }
 );
 

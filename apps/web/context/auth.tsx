@@ -33,9 +33,10 @@ const AuthProvider = ({ children, anonymous }: any) => {
           logout();
         }
         if (error.response && error.response.status === 500) {
-          // Display Error Message
+          console.error(error.response);
         }
-        return {};
+        console.error(error.message);
+        return Promise.reject();
       }
     );
   };

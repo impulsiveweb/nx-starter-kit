@@ -9,3 +9,13 @@ export const APIS = {
     USER_LIST: '/dashboard/list-users'
   }
 };
+
+export const getListRequestConfig = () => {
+  return {
+    page: 1,
+    limit: 20,
+    search: '',
+    search_fields: [],
+    sort: [['id', 'DESC']],
+  };
+};
