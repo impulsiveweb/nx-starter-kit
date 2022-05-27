@@ -122,14 +122,13 @@ export class AuthService {
     }
 
     const hash: string = await toHash(data.password);
-    console.log("HASH", hash);
     const created = await User.create({
       first_name: data.first_name,
-      last_name: data.first_name,
+      last_name: data.last_name,
       email: data.email,
       mobile: data.mobile,
       password: hash,
-      role: ROLES.ADMIN,
+      role: ROLES.USER,
       status: 1
     });
 

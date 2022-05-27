@@ -13,7 +13,7 @@ export const APIS = {
 export const getListRequestConfig = () => {
   return {
     page: 1,
-    limit: 20,
+    limit: 5,
     search: '',
     search_fields: [],
     sort: [['id', 'DESC']],

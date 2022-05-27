@@ -23,9 +23,9 @@ const DashboardDataComponent: FC<any> = ({ data, config, updateConfig }) => {
         </ul>)}
       </div>
       <PaginationComponent
-        count={56}
-        limit={10}
-        active={1}
+        count={data.count}
+        limit={config.limit}
+        active={config.page}
         onChange={(page) =>
           updateConfig(Object.assign({}, config, { page: page }))
         }
