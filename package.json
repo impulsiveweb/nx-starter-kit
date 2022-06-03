@@ -16,6 +16,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/sequelize": "^8.0.0",
     "@nrwl/next": "14.1.7",
+    "aws-sdk": "^2.1148.0",
     "bcrypt": "^5.0.1",
     "core-js": "^3.6.5",
     "js-cookie": "^3.0.1",

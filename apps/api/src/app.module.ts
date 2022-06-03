@@ -9,6 +9,7 @@ import { JwtModule } from "./jwt/jwt.module";
 import { ExceptionFilter } from "./exception.filter";
 import { AuthModule } from "./modules/auth/auth.module";
 import { DashboardModule } from "./modules/dashboard/dashboard.module";
+import { FilesModule } from "./modules/files/files.module";
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { DashboardModule } from "./modules/dashboard/dashboard.module";
     DatabaseModule,
     LoggerModule,
     AuthModule,
-    DashboardModule
+    DashboardModule,
+    FilesModule
   ],
   providers: [
     ConfigService,
