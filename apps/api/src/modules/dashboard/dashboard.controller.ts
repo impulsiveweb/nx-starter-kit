@@ -1,6 +1,6 @@
 import { Body, Controller, Post, UseGuards, Request } from '@nestjs/common';
 import { DashboardService } from './dashboard.service';
-import { JwtGuard } from '@j/jwt.guard';
+import { JwtGuard } from '@jwt/jwt.guard';
 import { RESPONSE } from '@utils/constant';
 
 @Controller('dashboard')
