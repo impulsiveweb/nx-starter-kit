@@ -15,6 +15,7 @@
     "@nestjs/jwt": "^8.0.1",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/sequelize": "^8.0.0",
+    "@nestjs/serve-static": "^2.2.2",
     "@nrwl/next": "14.1.7",
     "aws-sdk": "^2.1148.0",
     "bcrypt": "^5.0.1",

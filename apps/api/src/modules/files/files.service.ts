@@ -4,6 +4,8 @@ import { User } from '@database/user.model';
 import { getFilterParams } from '@utils/helpers';
 import { S3 } from 'aws-sdk';
 import * as sharp from 'sharp';
+import * as fs from 'fs';
+import { join } from 'path';
 
 @Injectable()
 export class FilesService {
@@ -35,6 +37,19 @@ export class FilesService {
     return res;
   }
 
+  async uploadFile(buffer, name) {
+    const filePath = this.config.get('FILES_PATH');
+    const path = join(filePath, name);
+    const parts = path.split('/');
+    parts.pop();
+    const dir = parts.join('/');
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.createWriteStream(path).write(buffer);
+    return path;
+  }
+
   async getResizedImage(buffer, type) {
     const image = await sharp(buffer);
     const metadata = await image.metadata();
@@ -52,6 +67,9 @@ export class FilesService {
     const storage = this.config.get('STORAGE');
     if (storage === 'S3' || storage === 'BOTH') {
       this.uploadS3(buffer, `${id}/${fileName}`);
+    }
+    if (storage === 'DISK' || storage === 'BOTH') {
+      this.uploadFile(buffer, `${id}/${fileName}`);
     }
   }
 
