@@ -3,6 +3,7 @@ import { ConfigService } from '@config';
 import { SequelizeModule } from '@nestjs/sequelize';
 
 import { User } from '@database/user.model';
+import { File } from '@database/file.model';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { User } from '@database/user.model';
           password: config.get('MYSQL_PASSWORD') || '',
           database: config.get('MYSQL_NAME') || 'nx-starter-kit',
           autoLoadModels: true,
-          models: [User],
+          models: [User, File],
           define: {
             timestamp: true,
             createdAt: 'created_at',

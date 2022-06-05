@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@config';
 import { User } from '@database/user.model';
+import { File } from '@database/file.model';
 import { getFilterParams } from '@utils/helpers';
 import { S3 } from 'aws-sdk';
 import * as sharp from 'sharp';
@@ -58,10 +59,54 @@ export class FilesService {
     const newWidth = parseInt(this.config.get(type));
     const newHeight = Math.floor((height / width) * newWidth);
     if (width > newWidth || height > newHeight) {
-      return sharp(buffer).resize(newWidth, newHeight).toBuffer();
+      const newBuffer = await sharp(buffer).resize(newWidth, newHeight).toBuffer();
+      const image = await sharp(buffer);
+      const metadata = await image.metadata();
+      return {
+        buffer: newBuffer,
+        width: newWidth,
+        height: newHeight,
+        size: metadata.size,
+      };
     }
-    return buffer;
+    return {
+      buffer,
+      width,
+      height,
+      size: metadata.size,
+    };
   }
+
+  addUrls = (file) => {
+    const urls = { disk: {}, bucket: {} };
+    const STORAGE = this.config.get('STORAGE');
+    const S3_URL = this.config.get('S3_URL');
+    const S3_DIRECTORY = this.config.get('S3_DIRECTORY');
+    const FILES_SERVE_ROOT = this.config.get('FILES_SERVE_ROOT');
+    const FILES_BASE_URL = this.config.get('FILES_BASE_URL');
+
+    const paths = file.paths.split(',');
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+      if (STORAGE === 'S3' || STORAGE === 'BOTH') {
+        urls.bucket['file'] = S3_URL + S3_DIRECTORY + paths[0];
+        paths.forEach((f, i) => {
+          urls.bucket[['large', 'medium', 'small'][i]] = S3_URL + S3_DIRECTORY + f;
+        });
+      }
+      if (STORAGE === 'DISK' || STORAGE === 'BOTH') {
+        urls.disk['file'] =
+          FILES_BASE_URL + FILES_SERVE_ROOT + '/' + paths[0];
+        paths.forEach((f, i) => {
+          urls.disk[['large', 'medium', 'small'][i]] =
+            FILES_BASE_URL + FILES_SERVE_ROOT + '/' + f;
+        });
+      }
+    } else {
+      urls.bucket['file'] = FILES_BASE_URL + FILES_SERVE_ROOT + '/' + paths[0];
+    }
+    file.urls = urls;
+    return file;
+  };
 
   async saveToDestination(buffer, fileName, id) {
     const storage = this.config.get('STORAGE');
@@ -71,18 +116,31 @@ export class FilesService {
     if (storage === 'DISK' || storage === 'BOTH') {
       this.uploadFile(buffer, `${id}/${fileName}`);
     }
+    return `${id}/${fileName}`;
   }
 
-  async upload(file) {
-    const sizeBase = file.size;
+  async upload(file, user_id) {
+    let sizeBase = file.size;
     const extension = file.originalname.split('.').pop().toLowerCase();
     const name = file.originalname;
-    const id = 1;
+    let paths = [];
+    let width = null;
+    let height = null;
+    const fileRecord = await File.create({
+      name: name,
+      extension: extension,
+      mimetype: file.mimetype,
+      created_by: user_id,
+    });
+    const id = fileRecord.id;
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
       const large = await this.getResizedImage(
         file.buffer,
         'IMAGE_WIDTH_LARGE'
       );
+      sizeBase = large.size;
+      width = large.width;
+      height = large.height;
       const medium = await this.getResizedImage(
         file.buffer,
         'IMAGE_WIDTH_MEDIUM'
@@ -91,9 +149,22 @@ export class FilesService {
         file.buffer,
         'IMAGE_WIDTH_SMALL'
       );
-      this.saveToDestination(large, `large.${extension}`, id);
-      this.saveToDestination(medium, `medium.${extension}`, id);
-      this.saveToDestination(small, `small.${extension}`, id);
+      const pathLarge = await this.saveToDestination(
+        large.buffer,
+        `large.${extension}`,
+        id
+      );
+      const pathMedium = await this.saveToDestination(
+        medium.buffer,
+        `medium.${extension}`,
+        id
+      );
+      const pathSmall = await this.saveToDestination(
+        small.buffer,
+        `small.${extension}`,
+        id
+      );
+      paths = [pathLarge, pathMedium, pathSmall];
     } else if (file.mimetype === "'video/mp4'") {
       this.saveToDestination(file.buffer, `file.${extension}`, id);
       if (this.config.get('VIDEO_THUMBNAIL') === 'true') {
@@ -101,11 +172,21 @@ export class FilesService {
         console.log('generateThumbnail');
       }
     } else {
-      this.saveToDestination(file.buffer, `file.${extension}`, id);
+      const path = await this.saveToDestination(
+        file.buffer,
+        `file.${extension}`,
+        id
+      );
+      paths = [path];
     }
-
-    // const res = await this.uploadS3(file);
-
-    // console.log('RES', res);
+    const update = {
+      size: sizeBase,
+      width: width,
+      height: height,
+      paths: paths.join(','),
+    };
+    await File.update(update, { where: { id: id } });
+    const f = await File.findByPk(id);
+    return this.addUrls(f);
   }
 }
