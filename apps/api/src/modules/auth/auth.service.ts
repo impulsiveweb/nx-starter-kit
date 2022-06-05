@@ -25,7 +25,6 @@ export class AuthService {
         mobile: user.mobile
       },
     };
-    console.log('payload', payload);
     const token: string = this.jwt.sign(payload);
     const refreshToken: string = this.jwt.sign(payload, {
       expiresIn: this.config.get("JWT_REFRESH_EXPIRY"),

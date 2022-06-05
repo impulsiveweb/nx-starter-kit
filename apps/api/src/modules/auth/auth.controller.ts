@@ -35,7 +35,6 @@ export class AuthController {
 
   @Post('register')
   async register(@Req() req: Request) {
-    console.log('req.body', req.body);
     const res = await this.auth.register(req.body, {
       ua: req.headers['user-agent'],
       ip: req.socket.remoteAddress,

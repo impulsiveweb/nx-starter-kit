@@ -41,15 +41,12 @@ export class LoggerService implements Logger {
   }
 
   private _write(data: any) {
-    console.log('WRITE DATA', data);
     const fileName: string =
         dayjs().format(
           this.config.get("LOG_FILE_NAME_FORMAT") || "YYYY-MM-DD"
         ) + ".log",
       filePath: string = join(this.config.get("LOG_PATH"), fileName),
       message: string = data.message + "\r\n";
-
-      console.log('filePath', filePath);
 
     open(filePath, "a+", () => {
       appendFile(filePath, message, () => {});
