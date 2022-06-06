@@ -112,11 +112,16 @@ export class FilesService {
       if (STORAGE === 'DISK' || STORAGE === 'BOTH') {
         urls.disk['file'] = FILES_BASE_URL + FILES_SERVE_ROOT + '/' + paths[0];
         if(paths.length > 1){
-          urls.disk['thumb'] = FILES_BASE_URL + FILES_SERVE_ROOT + '/' + paths[0];
+          urls.disk['thumb'] = FILES_BASE_URL + FILES_SERVE_ROOT + '/' + paths[1];
         }
       }
     } else {
-      urls.bucket['file'] = FILES_BASE_URL + FILES_SERVE_ROOT + '/' + paths[0];
+      if (STORAGE === 'S3' || STORAGE === 'BOTH') {
+        urls.bucket['file'] = S3_URL + S3_DIRECTORY + paths[0];
+      }
+      if (STORAGE === 'DISK' || STORAGE === 'BOTH') {
+        urls.disk['file'] = FILES_BASE_URL + FILES_SERVE_ROOT + '/' + paths[0];
+      }
     }
     file.urls = urls;
     return file;
