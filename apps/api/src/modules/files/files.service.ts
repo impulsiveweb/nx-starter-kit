@@ -130,7 +130,7 @@ export class FilesService {
   async saveToDestination(buffer, fileName, id) {
     const storage = this.config.get('STORAGE');
     if (storage === 'S3' || storage === 'BOTH') {
-      this.uploadS3(buffer, `${id}/${fileName}`);
+      await this.uploadS3(buffer, `${id}/${fileName}`);
     }
     if (storage === 'DISK' || storage === 'BOTH') {
       this.uploadFile(buffer, `${id}/${fileName}`);

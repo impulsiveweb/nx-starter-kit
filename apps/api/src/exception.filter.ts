@@ -125,8 +125,9 @@ export class ExceptionFilter extends BaseExceptionFilter {
           statusCode: 500,
           timestamp: new Date().toISOString(),
           path: req.url,
+          message: exception.toString(),
+          stack: exception,
           errorCode: time,
-          errors: [{ message: 'Something went wrong.' }],
         });
       }
     }
